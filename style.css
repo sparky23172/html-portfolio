@@ -1,0 +1,38 @@
+#top_portion {
+    background-image: url("./assets/images/hackz.jpg");
+    color: white;
+    height: 50vh;
+}
+
+.skills {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    grid-template-rows: repeat(1, 1fr);
+    width: 50%;
+    margin: 100px auto 0 auto;
+    text-align: left;
+    row-gap: 2rem;
+}
+
+
+.icon {
+    height: 300px;
+    width: 300px;
+    float: left;
+}
+
+.heads {
+    font-family: 'Rokkitt', serif;
+}
+
+p {
+    line-height: 2;
+}
+
+body {
+    color: gray;
+    margin: 0;
+    text-align: left;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
