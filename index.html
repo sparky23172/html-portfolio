@@ -1,117 +1,795 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rokkitt&family=Space+Grotesk&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex — Cybersecurity Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0c0f;
+    --bg2: #111418;
+    --bg3: #181d24;
+    --line: rgba(255,255,255,0.06);
+    --line2: rgba(255,255,255,0.12);
+    --text: #e8eaed;
+    --muted: #6b7280;
+    --accent: #00ff88;
+    --accent2: #00c4ff;
+    --warn: #ff6b35;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Scanline effect */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--line);
+    background: rgba(10,12,15,0.92);
+    backdrop-filter: blur(12px);
+  }
+
+  nav .inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--muted); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 6rem 0 4rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+    display: block;
+  }
+
+  .hero h1 {
+    font-family: var(--sans);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 .name { color: var(--text); }
+  .hero h1 .role {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.25);
+  }
+
+  .hero-sub {
+    max-width: 480px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    font-weight: 700;
+  }
+
+  .btn-primary:hover { background: #00e07a; transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--line2);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+
+  /* ── STATUS BAR ── */
+  .status-bar {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 2.5rem;
+    overflow-x: auto;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+
+  .stat-val {
+    font-family: var(--sans);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .stat-key {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── SECTION LAYOUT ── */
+  section {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-num {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-family: var(--sans);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── SKILLS GRID ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .skill-card {
+    background: var(--bg);
+    padding: 1.75rem;
+    transition: background 0.2s;
+  }
+
+  .skill-card:hover { background: var(--bg3); }
+
+  .skill-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .skill-icon svg { width: 20px; height: 20px; }
+
+  .skill-card h3 {
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .skill-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .skill-tag {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 2px 8px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+
+  .tag-green { background: rgba(0,255,136,0.08); color: var(--accent); border: 1px solid rgba(0,255,136,0.15); }
+  .tag-blue  { background: rgba(0,196,255,0.08); color: var(--accent2); border: 1px solid rgba(0,196,255,0.15); }
+  .tag-orange{ background: rgba(255,107,53,0.08); color: var(--warn); border: 1px solid rgba(255,107,53,0.15); }
+
+  /* ── TRAINING ── */
+  .training-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .training-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .training-item:last-child { border-bottom: none; }
+
+  .training-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .training-name {
+    font-size: 13px;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .training-badge {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 1px 6px;
+    border: 1px solid var(--line2);
+    border-radius: 2px;
+  }
+
+  /* ── LINKS ── */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .link-card {
+    background: var(--bg);
+    padding: 1.25rem 1.5rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.2s;
+    group: true;
+  }
+
+  .link-card:hover { background: var(--bg3); }
+
+  .link-card:hover .link-arrow { color: var(--accent); transform: translate(2px, -2px); }
+
+  .link-name {
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+
+  .link-arrow {
+    font-size: 16px;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  /* ── TERMINAL PROMPT ── */
+  .terminal {
+    background: var(--bg2);
+    border: 1px solid var(--line2);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin: 2.5rem 0;
+    font-size: 13px;
+  }
+
+  .terminal-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1rem;
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+
+  .terminal-line { color: var(--muted); margin-bottom: 4px; }
+  .terminal-line .prompt { color: var(--accent); }
+  .terminal-line .output { color: var(--text); }
+  .terminal-line .comment { color: var(--muted); }
+  .blink {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: var(--accent);
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer p {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── GLITCH accent on hover ── */
+  @keyframes glitch {
+    0%   { clip-path: inset(40% 0 60% 0); transform: translate(-4px, 0); }
+    20%  { clip-path: inset(20% 0 50% 0); transform: translate(4px, 0); }
+    40%  { clip-path: inset(60% 0 20% 0); transform: translate(-2px, 0); }
+    60%  { clip-path: inset(10% 0 70% 0); transform: translate(2px, 0); }
+    80%  { clip-path: inset(50% 0 10% 0); transform: translate(-1px, 0); }
+    100% { clip-path: inset(40% 0 60% 0); transform: translate(0, 0); }
+  }
+
+  .hero h1:hover .role {
+    position: relative;
+  }
+  .hero h1:hover .role::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+    -webkit-text-stroke: 0;
+    animation: glitch 0.3s steps(2, end);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 600px) {
+    nav ul { display: none; }
+    .status-bar { gap: 1.5rem; }
+    .hero { padding: 3rem 0 2rem; }
+  }
+</style>
 </head>
-
 <body>
-    <container id="top">
-        <div id="top_portion">
-            <div class="px-4  text-center">
 
-                <h1 class="display-5 fw-bold heads">I'm Alex!</h1>
-                <div class="col-sm-6 mx-auto">
-                    <p class="lead mb-4 body">A Cyber Security Specialist</p>
-                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    </div>
-                </div>
-            </div>
+<nav>
+  <div class="inner">
+    <a class="logo" href="#"><span>~/</span>skynethacks.ai</a>
+    <ul>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#training">Certs</a></li>
+      <li><a href="#links">Links</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-label">Cybersecurity Specialist</div>
+    <h1>
+      <span class="name">I'm Alex.</span>
+      <span class="role" data-text="Offensive Security">Offensive Security</span>
+    </h1>
+    <p class="hero-sub">
+      Web, iOS, and Android application hacker. Passionate about breaking things, building
+      tools, and helping the next generation of security professionals find their footing.
+    </p>
+    <div class="hero-actions">
+      <a href="https://www.linkedin.com/in/alexander-t-34256315b/" class="btn btn-primary" target="_blank">→ Connect on LinkedIn</a>
+      <a href="https://medium.com/@Sparky23172" class="btn btn-ghost" target="_blank">Read Articles</a>
+    </div>
+  </header>
+
+  <!-- STATUS -->
+  <div class="status-bar">
+    <div class="stat">
+      <span class="stat-val" style="color:var(--accent)">Web</span>
+      <span class="stat-key">App Hacking</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val" style="color:var(--accent2)">Mobile</span>
+      <span class="stat-key">iOS &amp; Android</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val" style="color:var(--warn)">IoT</span>
+      <span class="stat-key">Hardware + RF</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">Red Team</span>
+      <span class="stat-key">Network + Wireless</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">5+</span>
+      <span class="stat-key">Languages</span>
+    </div>
+  </div>
+
+  <!-- TERMINAL BIO -->
+  <div class="terminal">
+    <div class="terminal-bar">
+      <span class="dot dot-r"></span>
+      <span class="dot dot-y"></span>
+      <span class="dot dot-g"></span>
+    </div>
+    <div class="terminal-line"><span class="prompt">alex@skynethacks</span> ~$ whoami</div>
+    <div class="terminal-line"><span class="output">Web/iOS/Android application security specialist</span></div>
+    <div class="terminal-line" style="margin-top:8px"><span class="prompt">alex@skynethacks</span> ~$ cat mission.txt</div>
+    <div class="terminal-line"><span class="output">"Making lives easier so we can all follow our passions."</span></div>
+    <div class="terminal-line" style="margin-top:8px"><span class="prompt">alex@skynethacks</span> ~$ <span class="blink"></span></div>
+  </div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Core Skills</h2>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
         </div>
-    </container>
+        <h3>Hacking</h3>
+        <p>Web app, mobile, network, IoT, wireless, and red team operations. Built on a foundation of genuine passion since day one.</p>
+        <span class="skill-tag tag-green">Primary Specialty</span>
+      </div>
 
-    <container id="middle">
-
-
-        <div class="px-4 pt-5 my-5 text-center border-bottom">
-            <div class="overflow-hidden">
-                <div class="container">
-                    <img src="./assets/images/Screaming_Cat.png" class="border rounded-5 shadow-lg mb-5" alt="Picture of cat">
-                </div>
-            </div>
-
-            <h2 class="display-4 fw-bold text-body-emphasis heads">Hello!</h2>
-            <div class="col-lg-6 mx-auto">
-                <p class="lead mb-4 body">I am a Web/iOS/Android Application Hacker. I have a passion for learning as
-                    much as I can about cyber security and making lives easier so we can all follow our passions in
-                    life.</p>
-            </div>
+      <div class="skill-card">
+        <div class="skill-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent2)">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
         </div>
+        <h3>Scripting</h3>
+        <p>Automation-first mindset. If it takes 30+ min per week, it gets scripted. Python, Go, JavaScript, Perl, Bash — built to last.</p>
+        <span class="skill-tag tag-blue">JS · Python · Go · Bash</span>
+      </div>
 
-
-        <div class="skill">
-            <h2 class="display-4 fw-bold text-center text-body-emphasis heads">My Skills</h2>
-            <div class="container px-5 py-3" id="hanging-icons">
-                <div class="row g-4 py-5 row-cols-4 row-cols-sm-1">
-
-                  <div class="col d-flex align-items-start">
-                    <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                        <img class="icon" src="./assets/images/mega64-hacked.gif">
-                    </div>
-                    <div>
-                      <h3 class="fs-2 text-body-emphasis heads">Hacking</h3>
-                      <p class="body">Hacking is my number one passion. It has been a goal of mine since I was a young age to learn and to excel in hacking. I am very proud to say that I have gotten very good at it. While I specialize in Web Application and Mobile Application hacking, my interests do not stop there. I have preformed network, IOT, wireless, and various red team activities over career!</p>
-                    </div>
-                  </div>
-
-                  <div class="col d-flex align-items-start">
-                    <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                        <img class="icon" src="./assets/images/is_it_worth_the_time.png">
-                    </div>
-                    <div>
-                      <h3 class="fs-2 text-body-emphasis heads">Scripting</h3>
-                      <p class="body">While hacking is my number one passion, scripting is a very close second for what I am most passionate about in my professional life. I have programmed different scripts in a wide range of languages such as Javascript, Python, GoLang, Perl, and Bash. If a task has taken someone in my team over 30 minutes every week, I have usually made an effort to develop a script to assist reduce the time down to under a minute with minimal input on their end.</p>
-                    </div>
-                  </div>
-
-                  <div class="col d-flex align-items-start">
-                    <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                        <img class="icon" src="./assets/images/cats.jpg">
-                    </div>
-                    <div>
-                      <h3 class="fs-2 text-body-emphasis heads">Perpetual Learning</h3>
-                      <p class="body">I have been extremely fortunate to have received high quality training from varying organizations in my career. Such organizations include eLearnSecurity, SANS, PortSwigger, and TCM Academy to name a few. These along with the best source of information (Youtube) has ensured that if I ever have a question about what I should learn next or where to go, I will always have a starting point for my research!</p>
-                    </div>
-                  </div>
-
-                  <div class="col d-flex align-items-start">
-                    <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                        <img class="icon" src="./assets/images/yoda.jpg">
-                    </div>
-                    <div>
-                      <h3 class="fs-2 text-body-emphasis heads">Teaching / Mentoring</h3>
-                      <p class="body">While learning as much as possible is an amazing goal I have, it means nothing if I do not help the current and next generation of cyber security professionals. My time in formal school and outside of it has shown me time and time again that I love teaching and mentoring others. I have helped people from all around the world learn complicated materials while also ensuring that they can progress further in their goals/careers.</p>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
+      <div class="skill-card">
+        <div class="skill-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--warn)">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
         </div>
-    </container>
+        <h3>Perpetual Learning</h3>
+        <p>Trained by eLearnSecurity, SANS, PortSwigger, and TCM Academy. There's always a next level — always a starting point for research.</p>
+        <span class="skill-tag tag-orange">Always Upskilling</span>
+      </div>
 
-    <container id="bottom">
-        <div class="container">
-            <footer class="py-3 my-4">
-              <ul class="nav justify-content-center border-bottom border-top mb-3">
-                <li class="nav-item"><a href="https://www.linkedin.com/in/alexander-t-34256315b/" class="nav-link px-2 text-body-secondary heads">LinkedIn</a></li>
-                <li class="nav-item"><a href="https://github.com/sparky23172" class="nav-link px-2 text-body-secondary heads">GitHub</a></li>
-                <li class="nav-item"><a href="https://medium.com/@Sparky23172" class="nav-link px-2 text-body-secondary heads">Medium Articles</a></li>
-                <li class="nav-item"><a href="./Projects.html" class="nav-link px-2 text-body-secondary heads">Project's Demo Page</a></li>
-                <li class="nav-item"><a href="./simple.html" class="nav-link px-2 text-body-secondary heads">Simple Portfolio Page</a></li>
-                
-              </ul>
-              <p class="nav-item"><a href="./credits.html" class="nav-link px-2 text-body-secondary heads text-center">Credits</p>
-              
-            </footer>
+      <div class="skill-card">
+        <div class="skill-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>Teaching &amp; Mentoring</h3>
+        <p>Helped security professionals worldwide decode complex material and level up. Knowledge shared is knowledge multiplied.</p>
+        <span class="skill-tag tag-green">Global Impact</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="training">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Certifications</h2>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:2rem;">
+
+      <!-- Tier: Elite -->
+      <div>
+        <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;">── Advanced Certification</div>
+        <div class="training-list">
+          <div class="training-item">
+            <div class="training-dot"></div>
+            <span class="training-name">CISSP — Certified Information Systems Security Professional</span>
+            <span class="training-badge" style="color:var(--accent);border-color:rgba(0,255,136,0.3)">ISC²</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot"></div>
+            <span class="training-name">GXPN — GIAC Exploit Researcher &amp; Advanced Penetration Tester</span>
+            <span class="training-badge" style="color:var(--accent);border-color:rgba(0,255,136,0.3)">GIAC</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot"></div>
+            <span class="training-name">GWAPT — GIAC Web Application Penetration Tester</span>
+            <span class="training-badge" style="color:var(--accent);border-color:rgba(0,255,136,0.3)">GIAC</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot"></div>
+            <span class="training-name">GPEN — GIAC Certified Penetration Tester</span>
+            <span class="training-badge" style="color:var(--accent);border-color:rgba(0,255,136,0.3)">GIAC</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot"></div>
+            <span class="training-name">GCIH — GIAC Certified Incident Handler</span>
+            <span class="training-badge" style="color:var(--accent);border-color:rgba(0,255,136,0.3)">GIAC</span>
           </div>
         </div>
-    </container>
+      </div>
+
+      <!-- Tier: Practical / Hands-on -->
+      <div>
+        <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:0.75rem;">── Practical / Hands-on</div>
+        <div class="training-list">
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">OSWP — Offensive Security Wireless Professional</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">OffSec</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">HTB CWES — Certified Web Exploitation Specialist</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">Hack The Box · Dec 2025</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">PWPP — Practical Web Pentest Professional</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">TCM · Dec 2025</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">API Security Certified Professional</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">APIsec · Nov 2025</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">PWPA — Practical Web Pentest Associate</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">TCM · May 2025</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">CRT-ID — Certified Red Team Infra Developer</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">CyberWarFare · Apr 2025</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">Practical IoT Pentest Associate</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">TCM · May 2024</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">Practical Mobile Pentest Associate</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">TCM · Dec 2024</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">Practical Junior Penetration Tester</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">TCM · Dec 2024</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">Certified Professional Penetration Tester</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">INE Security</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">Junior Penetration Tester</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">INE Security</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">CEH — Certified Ethical Hacker</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">EC-Council</span>
+          </div>
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name">BCR Cyber Technical Proficiency — FedRAMP</span>
+            <span class="training-badge" style="color:var(--accent2);border-color:rgba(0,196,255,0.3)">BCR Cyber · Dec 2024</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tier: Physical / Unconventional -->
+      <div>
+        <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--warn);margin-bottom:0.75rem;">── Physical &amp; Unconventional</div>
+        <div class="training-list">
+          <div class="training-item">
+            <div class="training-dot" style="background:var(--warn)"></div>
+            <span class="training-name">FAA Part 107 Remote Pilot Certificate</span>
+            <span class="training-badge" style="color:var(--warn);border-color:rgba(255,107,53,0.3)">FAA · Expired Jan 2025</span>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-top:0.6rem;padding-left:1.25rem;">
+          Federally authorized UAS operator — enabling drone-based aerial recon as a legal red team capability within the US.
+        </p>
+      </div>
+
+      <!-- Tier: CompTIA + Foundational -->
+      <div>
+        <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem;">── CompTIA &amp; Foundational</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <span class="skill-tag tag-green">A+</span>
+          <span class="skill-tag tag-green">Network+</span>
+          <span class="skill-tag tag-green">Security+</span>
+          <span class="skill-tag tag-green">CySA+</span>
+          <span class="skill-tag tag-green">PenTest+</span>
+          <span class="skill-tag tag-blue">AWS Cloud Practitioner</span>
+          <span class="skill-tag tag-blue">CCENT</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LINKS -->
+  <section id="links">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Links</h2>
+    </div>
+
+    <div class="links-grid">
+      <a class="link-card" href="https://www.linkedin.com/in/alexander-t-34256315b/" target="_blank">
+        <span class="link-name">LinkedIn</span>
+        <span class="link-arrow">↗</span>
+      </a>
+      <a class="link-card" href="https://github.com/sparky23172" target="_blank">
+        <span class="link-name">GitHub</span>
+        <span class="link-arrow">↗</span>
+      </a>
+      <a class="link-card" href="https://medium.com/@Sparky23172" target="_blank">
+        <span class="link-name">Medium Articles</span>
+        <span class="link-arrow">↗</span>
+      </a>
+      <a class="link-card" href="https://www.skynethacks.ai/Projects.html" target="_blank">
+        <span class="link-name">Projects Demo</span>
+        <span class="link-arrow">↗</span>
+      </a>
+      <a class="link-card" href="https://www.skynethacks.ai/simple.html" target="_blank">
+        <span class="link-name">Simple Portfolio</span>
+        <span class="link-arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2024 Alex — skynethacks.ai</p>
+    <p style="color:var(--accent);font-family:var(--mono)">hack. automate. teach. repeat.</p>
+  </footer>
+
+</div>
 </body>
+</html>
