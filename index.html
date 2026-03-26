@@ -36,7 +36,6 @@
     overflow-x: hidden;
   }
 
-  /* Grid overlay */
   body::before {
     content: '';
     position: fixed;
@@ -49,7 +48,6 @@
     z-index: 0;
   }
 
-  /* Scanline effect */
   body::after {
     content: '';
     position: fixed;
@@ -73,7 +71,6 @@
     padding: 0 2rem;
   }
 
-  /* ── NAV ── */
   nav {
     position: sticky;
     top: 0;
@@ -92,364 +89,84 @@
     justify-content: space-between;
   }
 
-  .logo {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-    text-decoration: none;
-  }
-
+  .logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.08em; text-decoration: none; }
   .logo span { color: var(--muted); }
-
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-  }
-
-  nav a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
   nav a:hover { color: var(--accent); }
 
-  /* ── HERO ── */
-  .hero {
-    padding: 6rem 0 4rem;
-    border-bottom: 1px solid var(--line);
-  }
+  .hero { padding: 6rem 0 4rem; border-bottom: 1px solid var(--line); }
 
   .hero-label {
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;
   }
+  .hero-label::before { content: ''; width: 24px; height: 1px; background: var(--accent); display: block; }
 
-  .hero-label::before {
-    content: '';
-    width: 24px;
-    height: 1px;
-    background: var(--accent);
-    display: block;
-  }
-
-  .hero h1 {
-    font-family: var(--sans);
-    font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-  }
-
+  .hero h1 { font-family: var(--sans); font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
   .hero h1 .name { color: var(--text); }
-  .hero h1 .role {
-    display: block;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(255,255,255,0.25);
-  }
+  .hero h1 .role { display: block; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.25); }
 
-  .hero-sub {
-    max-width: 480px;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.8;
-    margin-bottom: 2.5rem;
-  }
+  .hero-sub { max-width: 480px; color: var(--muted); font-size: 14px; line-height: 1.8; margin-bottom: 2.5rem; }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.7rem 1.4rem;
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-decoration: none;
-    border-radius: 3px;
-    transition: all 0.2s;
-    cursor: pointer;
-    border: none;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #000;
-    font-weight: 700;
-  }
-
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.4rem; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-decoration: none; border-radius: 3px; transition: all 0.2s; cursor: pointer; border: none; }
+  .btn-primary { background: var(--accent); color: #000; font-weight: 700; }
   .btn-primary:hover { background: #00e07a; transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--line2); }
+  .btn-ghost:hover { border-color: var(--accent2); color: var(--accent2); }
 
-  .btn-ghost {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--line2);
-  }
+  .status-bar { padding: 1rem 0; border-bottom: 1px solid var(--line); display: flex; gap: 2.5rem; overflow-x: auto; }
+  .stat { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+  .stat-val { font-family: var(--sans); font-size: 1.5rem; font-weight: 700; color: var(--text); line-height: 1; }
+  .stat-key { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 
-  .btn-ghost:hover {
-    border-color: var(--accent2);
-    color: var(--accent2);
-  }
+  section { padding: 4rem 0; border-bottom: 1px solid var(--line); }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2.5rem; }
+  .section-num { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; }
+  .section-title { font-family: var(--sans); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
 
-  /* ── STATUS BAR ── */
-  .status-bar {
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--line);
-    display: flex;
-    gap: 2.5rem;
-    overflow-x: auto;
-  }
-
-  .stat {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    flex-shrink: 0;
-  }
-
-  .stat-val {
-    font-family: var(--sans);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1;
-  }
-
-  .stat-key {
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  /* ── SECTION LAYOUT ── */
-  section {
-    padding: 4rem 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .section-num {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-  }
-
-  .section-title {
-    font-family: var(--sans);
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-
-  /* ── SKILLS GRID ── */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-  }
-
-  .skill-card {
-    background: var(--bg);
-    padding: 1.75rem;
-    transition: background 0.2s;
-  }
-
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .skill-card { background: var(--bg); padding: 1.75rem; transition: background 0.2s; }
   .skill-card:hover { background: var(--bg3); }
-
-  .skill-icon {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
+  .skill-icon { width: 32px; height: 32px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; }
   .skill-icon svg { width: 20px; height: 20px; }
+  .skill-card h3 { font-family: var(--sans); font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .skill-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .skill-tag { display: inline-block; margin-top: 0.75rem; padding: 2px 8px; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; }
+  .tag-green  { background: rgba(0,255,136,0.08);  color: var(--accent);  border: 1px solid rgba(0,255,136,0.15); }
+  .tag-blue   { background: rgba(0,196,255,0.08);  color: var(--accent2); border: 1px solid rgba(0,196,255,0.15); }
+  .tag-orange { background: rgba(255,107,53,0.08); color: var(--warn);    border: 1px solid rgba(255,107,53,0.15); }
 
-  .skill-card h3 {
-    font-family: var(--sans);
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-
-  .skill-card p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  .skill-tag {
-    display: inline-block;
-    margin-top: 0.75rem;
-    padding: 2px 8px;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    border-radius: 2px;
-  }
-
-  .tag-green { background: rgba(0,255,136,0.08); color: var(--accent); border: 1px solid rgba(0,255,136,0.15); }
-  .tag-blue  { background: rgba(0,196,255,0.08); color: var(--accent2); border: 1px solid rgba(0,196,255,0.15); }
-  .tag-orange{ background: rgba(255,107,53,0.08); color: var(--warn); border: 1px solid rgba(255,107,53,0.15); }
-
-  /* ── TRAINING ── */
-  .training-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .training-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.9rem 0;
-    border-bottom: 1px solid var(--line);
-  }
-
+  .training-list { display: flex; flex-direction: column; gap: 0; }
+  .training-item { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
   .training-item:last-child { border-bottom: none; }
+  .training-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .training-name { font-size: 13px; color: var(--text); flex: 1; }
+  .training-badge { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 1px 6px; border: 1px solid var(--line2); border-radius: 2px; }
 
-  .training-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-
-  .training-name {
-    font-size: 13px;
-    color: var(--text);
-    flex: 1;
-  }
-
-  .training-badge {
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 1px 6px;
-    border: 1px solid var(--line2);
-    border-radius: 2px;
-  }
-
-  /* ── LINKS ── */
-  .links-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-  }
-
-  .link-card {
-    background: var(--bg);
-    padding: 1.25rem 1.5rem;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: background 0.2s;
-    group: true;
-  }
-
+  .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .link-card { background: var(--bg); padding: 1.25rem 1.5rem; text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: background 0.2s; }
   .link-card:hover { background: var(--bg3); }
-
   .link-card:hover .link-arrow { color: var(--accent); transform: translate(2px, -2px); }
+  .link-name { font-size: 13px; color: var(--text); letter-spacing: 0.02em; }
+  .link-arrow { font-size: 16px; color: var(--muted); transition: all 0.2s; }
 
-  .link-name {
-    font-size: 13px;
-    color: var(--text);
-    letter-spacing: 0.02em;
-  }
-
-  .link-arrow {
-    font-size: 16px;
-    color: var(--muted);
-    transition: all 0.2s;
-  }
-
-  /* ── TERMINAL PROMPT ── */
-  .terminal {
-    background: var(--bg2);
-    border: 1px solid var(--line2);
-    border-radius: 4px;
-    padding: 1.5rem;
-    margin: 2.5rem 0;
-    font-size: 13px;
-  }
-
-  .terminal-bar {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 1rem;
-  }
-
+  .terminal { background: var(--bg2); border: 1px solid var(--line2); border-radius: 4px; padding: 1.5rem; margin: 2.5rem 0; font-size: 13px; }
+  .terminal-bar { display: flex; gap: 6px; margin-bottom: 1rem; }
   .dot { width: 10px; height: 10px; border-radius: 50%; }
   .dot-r { background: #ff5f57; }
   .dot-y { background: #febc2e; }
   .dot-g { background: #28c840; }
-
   .terminal-line { color: var(--muted); margin-bottom: 4px; }
   .terminal-line .prompt { color: var(--accent); }
   .terminal-line .output { color: var(--text); }
-  .terminal-line .comment { color: var(--muted); }
-  .blink {
-    display: inline-block;
-    width: 8px;
-    height: 14px;
-    background: var(--accent);
-    vertical-align: middle;
-    animation: blink 1s step-end infinite;
-  }
-
+  .blink { display: inline-block; width: 8px; height: 14px; background: var(--accent); vertical-align: middle; animation: blink 1s step-end infinite; }
   @keyframes blink { 50% { opacity: 0; } }
 
-  /* ── FOOTER ── */
-  footer {
-    padding: 2rem 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
+  footer { padding: 2rem 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer p { font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
 
-  footer p {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  /* ── GLITCH accent on hover ── */
   @keyframes glitch {
     0%   { clip-path: inset(40% 0 60% 0); transform: translate(-4px, 0); }
     20%  { clip-path: inset(20% 0 50% 0); transform: translate(4px, 0); }
@@ -458,19 +175,8 @@
     80%  { clip-path: inset(50% 0 10% 0); transform: translate(-1px, 0); }
     100% { clip-path: inset(40% 0 60% 0); transform: translate(0, 0); }
   }
-
-  .hero h1:hover .role {
-    position: relative;
-  }
-  .hero h1:hover .role::before {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    color: var(--accent2);
-    -webkit-text-stroke: 0;
-    animation: glitch 0.3s steps(2, end);
-    opacity: 0.5;
-  }
+  .hero h1:hover .role { position: relative; }
+  .hero h1:hover .role::before { content: attr(data-text); position: absolute; left: 0; color: var(--accent2); -webkit-text-stroke: 0; animation: glitch 0.3s steps(2, end); opacity: 0.5; }
 
   @media (max-width: 600px) {
     nav ul { display: none; }
@@ -487,6 +193,7 @@
     <ul>
       <li><a href="writeups.html">Writeups</a></li>
       <li><a href="#skills">Skills</a></li>
+      <li><a href="#talks">Talks</a></li>
       <li><a href="#training">Certs</a></li>
       <li><a href="#links">Links</a></li>
     </ul>
@@ -595,6 +302,18 @@
 
       <div class="skill-card">
         <div class="skill-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent2)">
+            <path d="M17 8h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2v4l-4-4H9a2 2 0 0 1-2-2v-1"/>
+            <path d="M15 4H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2v4l4-4h4a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/>
+          </svg>
+        </div>
+        <h3>Public Speaking</h3>
+        <p>Conference speaker across BSides, GrrCon, CypherCon, Hack Space Con, and Skytalks. Keynote at SecretCon 2024. Featured on the RSA Conference podcast.</p>
+        <span class="skill-tag tag-blue">10+ Conference Talks</span>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
             <circle cx="9" cy="7" r="4"/>
@@ -618,7 +337,6 @@
 
     <div style="display:flex;flex-direction:column;gap:2rem;">
 
-      <!-- Tier: Elite -->
       <div>
         <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;">── Advanced Certification</div>
         <div class="training-list">
@@ -650,7 +368,6 @@
         </div>
       </div>
 
-      <!-- Tier: Practical / Hands-on -->
       <div>
         <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:0.75rem;">── Practical / Hands-on</div>
         <div class="training-list">
@@ -722,7 +439,6 @@
         </div>
       </div>
 
-      <!-- Tier: Physical / Unconventional -->
       <div>
         <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--warn);margin-bottom:0.75rem;">── Physical &amp; Unconventional</div>
         <div class="training-list">
@@ -737,7 +453,6 @@
         </p>
       </div>
 
-      <!-- Tier: CompTIA + Foundational -->
       <div>
         <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem;">── CompTIA &amp; Foundational</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;">
@@ -754,10 +469,86 @@
     </div>
   </section>
 
+  <!-- TALKS -->
+  <section id="talks">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Talks</h2>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:2rem;">
+
+      <div>
+        <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem;">── 2025</div>
+        <div class="training-list">
+          <div class="training-item" style="flex-wrap:wrap;gap:0.5rem;">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name" style="flex:1;min-width:200px;">So… You want to build your own hacking device…</span>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <a href="https://www.youtube.com/watch?v=vfqqMfylNaY" target="_blank" style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,255,136,0.25);padding:2px 8px;border-radius:2px;text-decoration:none;">CypherCon 8.0 ↗</a>
+              <a href="https://youtu.be/QHMvD4ySeUs?si=SAqBNhibM8JRMM-W" target="_blank" style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,255,136,0.25);padding:2px 8px;border-radius:2px;text-decoration:none;">BSides Las Vegas ↗</a>
+            </div>
+          </div>
+          <div class="training-item" style="flex-wrap:wrap;gap:0.5rem;">
+            <div class="training-dot" style="background:var(--accent2)"></div>
+            <span class="training-name" style="flex:1;min-width:200px;">Real Life Needs an ESP Overlay — So we Made One!</span>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span class="training-badge">Skytalks 2025</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem;">── 2024</div>
+        <div class="training-list">
+          <div class="training-item" style="flex-wrap:wrap;gap:0.5rem;">
+            <div class="training-dot"></div>
+            <span class="training-name" style="flex:1;min-width:200px;">Analyzing Android and Apple Apps with Frida, Ghidra, and Decompilers</span>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <a href="https://www.youtube.com/watch?v=RoNppaG1re4" target="_blank" style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,255,136,0.25);padding:2px 8px;border-radius:2px;text-decoration:none;">CypherCon 7.0 ↗</a>
+            </div>
+          </div>
+          <div class="training-item" style="flex-wrap:wrap;gap:0.5rem;">
+            <div class="training-dot" style="background:var(--warn)"></div>
+            <div style="flex:1;min-width:200px;">
+              <span class="training-name">Guardians of Cybersecurity: Deploying IoT Devices via Drones and Dropboxes</span>
+              <div style="margin-top:3px;">
+                <span style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--warn);border:1px solid rgba(255,107,53,0.3);padding:2px 8px;border-radius:2px;">★ Keynote — SecretCon 2024</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+              <a href="https://www.youtube.com/watch?v=PtIqvmTx9HQ" target="_blank" style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,255,136,0.25);padding:2px 8px;border-radius:2px;text-decoration:none;">Keynote Video ↗</a>
+              <a href="https://www.rsaconference.com/library/podcast/2024-guardians-of-cybersecurity" target="_blank" style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent2);border:1px solid rgba(0,196,255,0.25);padding:2px 8px;border-radius:2px;text-decoration:none;">RSA Podcast ↗</a>
+              <span class="training-badge">Hack Space Con</span>
+              <span class="training-badge">BSides Vancouver</span>
+              <span class="training-badge">GrrCon</span>
+            </div>
+          </div>
+          <div class="training-item" style="flex-wrap:wrap;gap:0.5rem;">
+            <div class="training-dot"></div>
+            <span class="training-name" style="flex:1;min-width:200px;">Weaponizing Drones and Where To Find Them</span>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span class="training-badge">Skytalks 2024</span>
+            </div>
+          </div>
+          <div class="training-item" style="flex-wrap:wrap;gap:0.5rem;">
+            <div class="training-dot"></div>
+            <span class="training-name" style="flex:1;min-width:200px;">So… You want to build your own hacking device…</span>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span class="training-badge">BSides Austin 2024</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- LINKS -->
   <section id="links">
     <div class="section-header">
-      <span class="section-num">03</span>
+      <span class="section-num">04</span>
       <h2 class="section-title">Links</h2>
     </div>
 
