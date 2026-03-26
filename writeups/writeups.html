@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writeups — skynethacks.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0c0f;
+    --bg2: #111418;
+    --bg3: #181d24;
+    --line: rgba(255,255,255,0.06);
+    --line2: rgba(255,255,255,0.12);
+    --text: #e8eaed;
+    --muted: #6b7280;
+    --accent: #00ff88;
+    --accent2: #00c4ff;
+    --warn: #ff6b35;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+
+    --diff-easy:   #00ff88;
+    --diff-medium: #febc2e;
+    --diff-hard:   #ff5f57;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--line);
+    background: rgba(10,12,15,0.92);
+    backdrop-filter: blur(12px);
+  }
+
+  nav .inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.08em; text-decoration: none; }
+  .logo span { color: var(--muted); }
+
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+  nav a:hover, nav a.active { color: var(--accent); }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding: 4rem 0 2.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-label::before { content: ''; width: 24px; height: 1px; background: var(--accent); display: block; }
+
+  .page-header h1 {
+    font-family: var(--sans);
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-header p {
+    color: var(--muted);
+    font-size: 13px;
+    max-width: 480px;
+  }
+
+  /* ── FILTERS ── */
+  .filters {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .pill {
+    padding: 3px 10px;
+    font-size: 11px;
+    font-family: var(--mono);
+    letter-spacing: 0.06em;
+    border-radius: 2px;
+    border: 1px solid var(--line2);
+    color: var(--muted);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+
+  .pill:hover { border-color: var(--text); color: var(--text); }
+
+  .pill.active-all    { border-color: var(--text);    color: var(--text); background: rgba(255,255,255,0.06); }
+  .pill.active-easy   { border-color: var(--diff-easy);   color: var(--diff-easy);   background: rgba(0,255,136,0.07); }
+  .pill.active-medium { border-color: var(--diff-medium); color: var(--diff-medium); background: rgba(254,188,46,0.07); }
+  .pill.active-hard   { border-color: var(--diff-hard);   color: var(--diff-hard);   background: rgba(255,95,87,0.07); }
+  .pill.active-arch   { border-color: var(--accent2); color: var(--accent2); background: rgba(0,196,255,0.07); }
+
+  .filter-sep { width: 1px; background: var(--line2); align-self: stretch; margin: 0 0.25rem; }
+
+  /* ── RESULTS BAR ── */
+  .results-bar {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .results-count { font-size: 12px; color: var(--muted); }
+  .results-count span { color: var(--accent); }
+
+  /* ── WRITEUP GRID ── */
+  .writeup-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin: 2rem 0;
+  }
+
+  .writeup-card {
+    background: var(--bg);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: background 0.2s;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .writeup-card:hover { background: var(--bg3); }
+  .writeup-card.hidden { display: none; }
+
+  .card-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-family: var(--mono);
+  }
+
+  .tag-easy   { background: rgba(0,255,136,0.08);  color: var(--diff-easy);   border: 1px solid rgba(0,255,136,0.2); }
+  .tag-medium { background: rgba(254,188,46,0.08); color: var(--diff-medium); border: 1px solid rgba(254,188,46,0.2); }
+  .tag-hard   { background: rgba(255,95,87,0.08);  color: var(--diff-hard);   border: 1px solid rgba(255,95,87,0.2); }
+  .tag-arch   { background: rgba(0,196,255,0.08);  color: var(--accent2);     border: 1px solid rgba(0,196,255,0.2); }
+
+  .card-title {
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .card-summary {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+  }
+
+  .card-date { color: var(--muted); }
+
+  .card-link {
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: gap 0.15s;
+  }
+
+  .writeup-card:hover .card-link { gap: 7px; }
+
+  /* ── EMPTY STATE ── */
+  .empty {
+    display: none;
+    padding: 4rem 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    border: 1px solid var(--line);
+    margin: 2rem 0;
+  }
+
+  .empty.visible { display: block; }
+
+  .empty-prompt { color: var(--accent); font-size: 11px; margin-top: 0.5rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  footer p { font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+
+  @media (max-width: 600px) {
+    nav ul { display: none; }
+    .filter-sep { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a class="logo" href="index.html"><span>~/</span>skynethacks.ai</a>
+    <ul>
+      <li><a href="index.html">Profile</a></li>
+      <li><a href="writeups.html" class="active">Writeups</a></li>
+      <li><a href="https://github.com/sparky23172" target="_blank">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="page-header">
+    <div class="hero-label">Research &amp; Analysis</div>
+    <h1>Writeups</h1>
+    <p>Penetration test findings, CTF solutions, and vulnerability research. Filter by difficulty or target architecture.</p>
+  </header>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <div class="filter-group">
+      <span class="filter-label">Difficulty</span>
+      <div class="filter-pills">
+        <button class="pill active-all" data-filter="diff" data-val="all">All</button>
+        <button class="pill" data-filter="diff" data-val="easy">Easy</button>
+        <button class="pill" data-filter="diff" data-val="medium">Medium</button>
+        <button class="pill" data-filter="diff" data-val="hard">Hard</button>
+      </div>
+    </div>
+
+    <div class="filter-sep"></div>
+
+    <div class="filter-group">
+      <span class="filter-label">Category</span>
+      <div class="filter-pills">
+        <button class="pill active-all" data-filter="arch" data-val="all">All</button>
+        <button class="pill" data-filter="arch" data-val="re">Rev Eng</button>
+        <button class="pill" data-filter="arch" data-val="web">Web</button>
+        <button class="pill" data-filter="arch" data-val="mobile">Mobile</button>
+        <button class="pill" data-filter="arch" data-val="iot">IoT</button>
+        <button class="pill" data-filter="arch" data-val="network">Network</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS COUNT -->
+  <div class="results-bar">
+    <span class="results-count"><span id="count">0</span> writeup(s) shown</span>
+  </div>
+
+  <!-- WRITEUP GRID -->
+  <!-- 
+    HOW TO ADD A WRITEUP:
+    Copy one of the .writeup-card divs below and update:
+      data-diff  = "easy" | "medium" | "hard"
+      data-arch  = "web" | "mobile" | "iot" | "network" | "windows" | "linux"
+      href       = path to your PDF, e.g. "writeups/my-report.pdf"
+      .card-title, .card-summary, .card-date = your content
+  -->
+  <div class="writeup-grid" id="grid">
+
+    <!-- EXAMPLE CARD 1 — replace with your real writeup -->
+    <a class="writeup-card"
+       data-diff="easy"
+       data-arch="re"
+       href="writeups/password_Very_Easy.pdf"
+       target="_blank">
+      <div class="card-tags">
+        <span class="tag tag-easy">Easy</span>
+        <span class="tag tag-arch">Rev Eng</span>
+      </div>
+      <div class="card-title">Password (Very Easy)</div>
+      <div class="card-summary">x86-64 Windows crackme solved via three methods: static analysis in Ghidra (string search), dynamic tracing in x32dbg, and runtime interception using Frida hooks and a custom C++ DLL NOP patch.</div>
+      <div class="card-footer">
+        <span class="card-date">crackmes.one · Assembler · x86-64</span>
+        <span class="card-link">Read PDF →</span>
+      </div>
+    </a>
+
+    <!-- ADD MORE CARDS HERE -->
+
+  </div>
+
+  <div class="empty" id="empty">
+    No writeups match the current filters.
+    <div class="empty-prompt">Try clearing a filter.</div>
+  </div>
+
+  <footer>
+    <p>© 2025 Alex — skynethacks.ai</p>
+    <p style="color:var(--accent);font-family:var(--mono)">hack. automate. teach. repeat.</p>
+  </footer>
+
+</div>
+
+<script>
+  const state = { diff: 'all', arch: 'all' };
+
+  function applyFilters() {
+    const cards = document.querySelectorAll('.writeup-card');
+    let visible = 0;
+    cards.forEach(card => {
+      const diffMatch = state.diff === 'all' || card.dataset.diff === state.diff;
+      const archMatch = state.arch === 'all' || card.dataset.arch === state.arch;
+      const show = diffMatch && archMatch;
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    document.getElementById('count').textContent = visible;
+    document.getElementById('empty').classList.toggle('visible', visible === 0);
+  }
+
+  document.querySelectorAll('.pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const group = pill.dataset.filter;
+      const val = pill.dataset.val;
+      state[group] = val;
+
+      // Update active pill styling in this group
+      document.querySelectorAll(`.pill[data-filter="${group}"]`).forEach(p => {
+        p.className = 'pill';
+        if (p === pill) {
+          if (val === 'all') p.classList.add('active-all');
+          else if (group === 'diff') p.classList.add(`active-${val}`);
+          else p.classList.add('active-arch');
+        }
+      });
+
+      applyFilters();
+    });
+  });
+
+  // Init count on load
+  applyFilters();
+</script>
+</body>
+</html>
